@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>司南过堂 - 创业测评 - 幸赋链 XFL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .btn-primary { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); transition: all 0.2s ease; }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); }
+        .progress-bar { transition: width 0.3s ease; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <nav class="bg-slate-900 shadow-sm sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="flex justify-between h-14 items-center">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <div class="w-8 h-8 bg-gradient-to-br from-indigo-500 to-pink-500 rounded-lg flex items-center justify-center text-white font-bold mr-2">X</div>
+                        <span class="text-lg font-semibold text-white">幸赋链</span>
+                    </a>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="index.html" class="text-gray-300 hover:text-white text-sm">返回首页</a>
+                    <span class="text-sm text-gray-400" id="progress-text">0/60 题</span>
+                </div>
+            </div>
+        </div>
+        <div class="w-full bg-slate-700 h-1">
+            <div class="progress-bar bg-gradient-to-r from-indigo-500 to-pink-500 h-1" id="progress-bar" style="width: 0%"></div>
+        </div>
+    </nav>
+
+    <main class="max-w-2xl mx-auto px-4 py-8">
+        <div id="home-page" class="space-y-8">
+            <div class="text-center space-y-4">
+                <div class="text-6xl mb-4">🧭</div>
+                <h1 class="text-2xl font-bold">司南过堂 · 创业分诊</h1>
+                <p class="text-gray-600">找到最适合你的创业方向</p>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm p-6 space-y-6">
+                <div class="grid grid-cols-3 gap-4 text-center">
+                    <div class="p-4 border rounded-lg">
+                        <div class="text-xl font-bold text-indigo-600 mb-2">6大维度</div>
+                        <p class="text-xs text-gray-600">全面评估创业特质</p>
+                    </div>
+                    <div class="p-4 border rounded-lg">
+                        <div class="text-xl font-bold text-indigo-600 mb-2">60道题</div>
+                        <p class="text-xs text-gray-600">准确率90%+</p>
+                    </div>
+                    <div class="p-4 border rounded-lg">
+                        <div class="text-xl font-bold text-indigo-600 mb-2">自动报告</div>
+                        <p class="text-xs text-gray-600">AI生成专属方案</p>
+                    </div>
+                </div>
+                <div class="bg-indigo-50 p-4 rounded-lg text-sm text-indigo-800">
+                    <p><strong>测评维度：</strong>底层动机、人格特质、优势能力、风险承受、资源积累、认知水平</p>
+                </div>
+                <button id="start-btn" class="w-full btn-primary text-white py-3 rounded-lg font-medium">开始测评（¥19.9）</button>
+                <p class="text-center text-xs text-gray-500">支付后即可开始，提交后概不退换</p>
+            </div>
+        </div>
+        
+        <div id="quiz-page" class="hidden">
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <div id="question-container" class="space-y-6"></div>
+                <div class="mt-8 flex justify-between">
+                    <button id="prev-btn" class="px-6 py-2 border rounded-lg text-gray-700 hidden">上一题</button>
+                    <button id="next-btn" class="px-6 py-2 btn-primary text-white rounded-lg">下一题</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="report-page" class="hidden space-y-8">
+            <div class="text-center">
+                <div class="text-6xl mb-4">📊</div>
+                <h1 class="text-2xl font-bold">你的专属创业测评报告</h1>
+                <p class="text-gray-600 mt-2">基于你的回答生成，建议保存收藏</p>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <h3 class="font-medium mb-4">👤 基本信息</h3>
+                <form id="report-form" class="space-y-4">
+                    <input type="text" placeholder="姓名" required class="w-full px-4 py-2 border rounded-lg">
+                    <input type="tel" placeholder="手机号码" required class="w-full px-4 py-2 border rounded-lg">
+                    <input type="email" placeholder="邮箱地址" required class="w-full px-4 py-2 border rounded-lg">
+                    <button type="submit" class="w-full btn-primary text-white py-3 rounded-lg font-medium">立即获取完整报告</button>
+                </form>
+            </div>
+            <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-6">
+                <h3 class="font-bold text-yellow-800 mb-2">💡 下一步推荐</h3>
+                <p class="text-sm text-yellow-700 mb-4">根据你的测评结果，建议进一步了解：</p>
+                <a href="products.html#toumingzhuang" class="block w-full bg-green-600 text-white text-center py-3 rounded-lg font-medium mb-2">投名状 ¥99 - 深度核查</a>
+                <a href="products.html#ally" class="block w-full bg-yellow-500 text-white text-center py-3 rounded-lg font-medium">盟友 ¥699 - 加入联盟</a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+    const questions = [
+    {id:'m1',text:'我创业主要是为了赚更多钱改善生活',dimension:'survival',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'m2',text:'我更愿意做感兴趣的事，哪怕赚得少一点',dimension:'interest',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'m3',text:'我希望通过创业证明自己，获得认可',dimension:'achievement',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'m4',text:'我想解决社会问题，帮助更多人',dimension:'mission',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'m5',text:'对我来说赚钱比兴趣更重要',dimension:'survival',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'m6',text:'做不感兴趣的事我很难坚持',dimension:'interest',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'m7',text:'我很在意别人对我创业成果的评价',dimension:'achievement',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'m8',text:'哪怕赚不到钱也想做对社会有意义的事',dimension:'mission',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'m9',text:'我需要每月有稳定收入，不然会焦虑',dimension:'survival',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'m10',text:'我能接受1年不赚钱，只要长期有价值',dimension:'interest',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'p1',text:'我经常尝试新事物，喜欢不同体验',dimension:'openness',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'p2',text:'我做事有计划，说到做到',dimension:'conscientiousness',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'p3',text:'我喜欢社交，聚会里经常是焦点',dimension:'extraversion',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'p4',text:'遇到压力能保持冷静，不慌乱',dimension:'neuroticism',reverse:true,options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'p5',text:'我容易理解别人感受，会换位思考',dimension:'agreeableness',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'p6',text:'我对新思想新观念很感兴趣',dimension:'openness',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'p7',text:'我做事细心，很少出错',dimension:'conscientiousness',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'p8',text:'我喜欢主动认识新朋友',dimension:'extraversion',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'p9',text:'我很少感到紧张焦虑',dimension:'neuroticism',reverse:true,options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'p10',text:'我总是愿意帮助别人',dimension:'agreeableness',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'s1',text:'想到什么事立刻去做，不拖延',dimension:'execution',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'s2',text:'遇到问题总能快速找到解决方案',dimension:'execution',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'s3',text:'我擅长表达，能轻松说服别人',dimension:'influence',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'s4',text:'我天生有领导力，别人愿意听我安排',dimension:'influence',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'s5',text:'我能感受到别人情绪变化，有同理心',dimension:'relationship',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'s6',text:'我不喜欢冲突，会尽量调和矛盾',dimension:'relationship',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'s7',text:'我擅长数据分析，能找到规律',dimension:'strategic',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'s8',text:'我能看到未来趋势，有远见',dimension:'strategic',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'s9',text:'我执行力很强，任务总能快速完成',dimension:'execution',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'s10',text:'我学习能力强，能快速掌握新技能',dimension:'strategic',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'r1',text:'如果创业失败赔10万我能承受',dimension:'risk',options:['完全不能','勉强可以','一般','可以接受','完全没问题']},
+    {id:'r2',text:'我愿意为高收益承担高风险',dimension:'risk',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'r3',text:'做决策更看重稳定性而非高回报',dimension:'risk',reverse:true,options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'r4',text:'我能接受连续6个月没有收入',dimension:'risk',options:['完全不能','勉强可以','一般','可以接受','完全没问题']},
+    {id:'r5',text:'遇到不确定情况会兴奋而非焦虑',dimension:'risk',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'r6',text:'我更倾向做有把握的事，不冒险',dimension:'risk',reverse:true,options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'r7',text:'我能接受成功率只有20%的项目',dimension:'risk',options:['完全不能','勉强可以','一般','可以接受','完全没问题']},
+    {id:'r8',text:'我愿意把全部积蓄投入创业',dimension:'risk',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'r9',text:'做决策会考虑最坏情况，做最坏打算',dimension:'risk',reverse:true,options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'r10',text:'我喜欢挑战有难度的事，越难越有动力',dimension:'risk',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'res1',text:'我有至少1000个微信好友',dimension:'resource',options:['远少于','少于','差不多','多于','远多于']},
+    {id:'res2',text:'我有一项技能超过身边90%的人',dimension:'resource',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'res3',text:'我有至少10万可支配创业资金',dimension:'resource',options:['远少于','少于','差不多','多于','远多于']},
+    {id:'res4',text:'我认识至少5个创业成功的朋友',dimension:'resource',options:['远少于','少于','差不多','多于','远多于']},
+    {id:'res5',text:'我在某个行业有至少3年工作经验',dimension:'resource',options:['远少于','少于','差不多','多于','远多于']},
+    {id:'res6',text:'我学习能力强，能快速上手新事物',dimension:'resource',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'res7',text:'我人脉资源丰富，需要帮助总能找到人',dimension:'resource',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'res8',text:'我有自己的个人品牌或影响力',dimension:'resource',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'res9',text:'我有稳定副业收入，可以覆盖生活成本',dimension:'resource',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'res10',text:'我有家人朋友支持，创业无后顾之忧',dimension:'resource',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'c1',text:'我经常阅读商业相关书籍和文章',dimension:'cognition',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'c2',text:'我能快速理解复杂商业逻辑',dimension:'cognition',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'c3',text:'我对未来趋势有自己的判断',dimension:'cognition',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'c4',text:'我能看到别人看不到的商业机会',dimension:'cognition',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'c5',text:'我知道怎么把想法变成可落地的产品',dimension:'cognition',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'c6',text:'我了解基本财务知识，能看懂报表',dimension:'cognition',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'c7',text:'我知道怎么获取用户，怎么卖产品',dimension:'cognition',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'c8',text:'我能快速识别商业模式的优劣',dimension:'cognition',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'c9',text:'我了解相关法律法规，知道合法经营',dimension:'cognition',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'c10',text:'我有明确的长期目标和规划',dimension:'cognition',options:['非常不符','不太符合','一般','比较符合','非常符合']}
+    ];
+    let currentQuestion = 0, answers = {};
+    const homePage = document.getElementById('home-page');
+    const quizPage = document.getElementById('quiz-page');
+    const reportPage = document.getElementById('report-page');
+    const questionContainer = document.getElementById('question-container');
+    const progressBar = document.getElementById('progress-bar');
+    const progressText = document.getElementById('progress-text');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const startBtn = document.getElementById('start-btn');
+    const reportForm = document.getElementById('report-form');
+    
+    startBtn.addEventListener('click', () => {
+        // 这里可以加入支付逻辑
+        currentQuestion = 0;
+        answers = {};
+        renderQuestion();
+        homePage.classList.add('hidden');
+        quizPage.classList.remove('hidden');
+        updateProgress();
+    });
+    
+    function renderQuestion() {
+        const q = questions[currentQuestion];
+        questionContainer.innerHTML = `
+            <div>
+                <span class="inline-block px-3 py-1 bg-indigo-100 text-indigo-800 text-xs rounded-full mb-2">
+                    第${currentQuestion+1}题 / 共${questions.length}题
+                </span>
+                <h3 class="text-lg font-semibold mb-4">${q.text}</h3>
+                <div class="space-y-3">
+                    ${q.options.map((opt,i) => `
+                        <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50 ${answers[q.id]===i ? 'border-indigo-500 bg-indigo-50' : ''}">
+                            <input type="radio" name="answer" value="${i}" class="mr-3" ${answers[q.id]===i ? 'checked' : ''}>
+                            <span>${opt}</span>
+                        </label>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+        document.querySelectorAll('input[name="answer"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                answers[q.id] = parseInt(e.target.value);
+                document.querySelectorAll('label').forEach(l => l.classList.remove('border-indigo-500','bg-indigo-50'));
+                e.target.parentElement.classList.add('border-indigo-500','bg-indigo-50');
+            });
+        });
+        prevBtn.classList.toggle('hidden', currentQuestion === 0);
+        nextBtn.textContent = currentQuestion === questions.length-1 ? '查看结果' : '下一题';
+    }
+    
+    nextBtn.addEventListener('click', () => {
+        const q = questions[currentQuestion];
+        if (answers[q.id] === undefined) {
+            alert('请选择一个选项');
+            return;
+        }
+        if (currentQuestion < questions.length-1) {
+            currentQuestion++;
+            renderQuestion();
+            updateProgress();
+        } else {
+            quizPage.classList.add('hidden');
+            reportPage.classList.remove('hidden');
+        }
+    });
+    
+    prevBtn.addEventListener('click', () => {
+        if (currentQuestion > 0) {
+            currentQuestion--;
+            renderQuestion();
+            updateProgress();
+        }
+    });
+    
+    function updateProgress() {
+        const progress = ((currentQuestion+1)/questions.length)*100;
+        progressBar.style.width = `${progress}%`;
+        progressText.textContent = `${currentQuestion+1}/${questions.length} 题`;
+    }
+    
+    reportForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('提交成功！完整报告已发送到您的邮箱，请注意查收。');
+    });
+    </script>
+</body>
+</html>
