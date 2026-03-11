@@ -9,6 +9,9 @@
         .btn-primary { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); transition: all 0.2s ease; }
         .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); }
         .progress-bar { transition: width 0.3s ease; }
+        .score-bar { transition: width 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.3s ease forwards; }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
@@ -23,6 +26,7 @@
                 </div>
                 <div class="flex items-center gap-4">
                     <a href="index.html" class="text-gray-300 hover:text-white text-sm">返回首页</a>
+                    <button id="history-btn" class="text-gray-300 hover:text-white text-sm hidden">📋 历史报告</button>
                     <span class="text-sm text-gray-400" id="progress-text">0/60 题</span>
                 </div>
             </div>
@@ -60,8 +64,12 @@
                 <button id="start-btn" class="w-full btn-primary text-white py-3 rounded-lg font-medium">开始测评（¥19.9）</button>
                 <p class="text-center text-xs text-gray-500">支付后即可开始，提交后概不退换</p>
             </div>
+            <div id="history-list" class="space-y-4 hidden">
+                <h3 class="font-bold text-gray-800">📋 历史报告</h3>
+                <div id="history-items" class="space-y-3"></div>
+            </div>
         </div>
-        
+
         <div id="quiz-page" class="hidden">
             <div class="bg-white rounded-xl shadow-sm p-6">
                 <div id="question-container" class="space-y-6"></div>
@@ -71,28 +79,53 @@
                 </div>
             </div>
         </div>
-        
-        <div id="report-page" class="hidden space-y-8">
+
+        <div id="report-page" class="hidden space-y-6">
             <div class="text-center">
                 <div class="text-6xl mb-4">📊</div>
                 <h1 class="text-2xl font-bold">你的专属创业测评报告</h1>
-                <p class="text-gray-600 mt-2">基于你的回答生成，建议保存收藏</p>
+                <p class="text-gray-600 mt-2" id="report-date"></p>
             </div>
+
+            <!-- 维度得分 -->
             <div class="bg-white rounded-xl shadow-sm p-6">
-                <h3 class="font-medium mb-4">👤 基本信息</h3>
-                <form id="report-form" class="space-y-4">
-                    <input type="text" placeholder="姓名" required class="w-full px-4 py-2 border rounded-lg">
-                    <input type="tel" placeholder="手机号码" required class="w-full px-4 py-2 border rounded-lg">
-                    <input type="email" placeholder="邮箱地址" required class="w-full px-4 py-2 border rounded-lg">
-                    <button type="submit" class="w-full btn-primary text-white py-3 rounded-lg font-medium">立即获取完整报告</button>
-                </form>
+                <h3 class="font-bold text-lg mb-4">📊 维度得分分析</h3>
+                <div id="dimension-scores" class="space-y-4"></div>
             </div>
+
+            <!-- 创业类型判断 -->
+            <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl shadow-sm p-6 border border-indigo-100">
+                <h3 class="font-bold text-lg mb-2">🎯 你的创业类型</h3>
+                <div id="result-type" class="text-2xl font-bold text-indigo-600 mb-2"></div>
+                <p id="result-desc" class="text-gray-700"></p>
+            </div>
+
+            <!-- 推荐建议 -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <h3 class="font-bold text-lg mb-4">💡 推荐建议</h3>
+                <div id="recommendations" class="space-y-3"></div>
+            </div>
+
+            <!-- 下一步行动 -->
             <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-6">
-                <h3 class="font-bold text-yellow-800 mb-2">💡 下一步推荐</h3>
-                <p class="text-sm text-yellow-700 mb-4">根据你的测评结果，建议进一步了解：</p>
+                <h3 class="font-bold text-yellow-800 mb-2">🚀 下一步行动</h3>
+                <p class="text-sm text-yellow-700 mb-4">根据你的测评结果，推荐：</p>
                 <a href="products.html#toumingzhuang" class="block w-full bg-green-600 text-white text-center py-3 rounded-lg font-medium mb-2">投名状 ¥99 - 深度核查</a>
                 <a href="products.html#ally" class="block w-full bg-yellow-500 text-white text-center py-3 rounded-lg font-medium">盟友 ¥699 - 加入联盟</a>
             </div>
+
+            <!-- 保存和分享 -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <h3 class="font-bold text-lg mb-4">💾 保存报告</h3>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <button id="save-btn" class="flex-1 btn-primary text-white py-3 rounded-lg font-medium">保存到本地</button>
+                    <button id="copy-btn" class="flex-1 bg-gray-600 text-white py-3 rounded-lg font-medium hover:bg-gray-700">复制报告</button>
+                    <button id="download-btn" class="flex-1 bg-indigo-600 text-white py-3 rounded-lg font-medium hover:bg-indigo-700">下载图片</button>
+                </div>
+                <p id="save-status" class="text-sm text-green-600 mt-2 hidden"></p>
+            </div>
+
+            <button id="retake-btn" class="w-full bg-gray-200 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-300">重新测评</button>
         </div>
     </main>
 
@@ -159,7 +192,38 @@
     {id:'c9',text:'我了解相关法律法规，知道合法经营',dimension:'cognition',options:['非常不符','不太符合','一般','比较符合','非常符合']},
     {id:'c10',text:'我有明确的长期目标和规划',dimension:'cognition',options:['非常不符','不太符合','一般','比较符合','非常符合']}
     ];
+
+    const dimensionNames = {
+        'survival': '生存导向',
+        'interest': '兴趣驱动',
+        'achievement': '成就动机',
+        'mission': '使命感',
+        'openness': '开放性',
+        'conscientiousness': '尽责性',
+        'extraversion': '外向性',
+        'neuroticism': '情绪稳定',
+        'agreeableness': '宜人性',
+        'execution': '执行力',
+        'influence': '影响力',
+        'relationship': '关系管理',
+        'strategic': '战略思维',
+        'risk': '风险承受',
+        'resource': '资源积累',
+        'cognition': '认知水平'
+    };
+
+    const dimensionGroups = {
+        '底层动机': ['survival', 'interest', 'achievement', 'mission'],
+        '人格特质': ['openness', 'conscientiousness', 'extraversion', 'neuroticism', 'agreeableness'],
+        '优势能力': ['execution', 'influence', 'relationship', 'strategic'],
+        '风险承受': ['risk'],
+        '资源积累': ['resource'],
+        '认知水平': ['cognition']
+    };
+
     let currentQuestion = 0, answers = {};
+    let currentReport = null;
+
     const homePage = document.getElementById('home-page');
     const quizPage = document.getElementById('quiz-page');
     const reportPage = document.getElementById('report-page');
@@ -169,10 +233,50 @@
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
     const startBtn = document.getElementById('start-btn');
-    const reportForm = document.getElementById('report-form');
-    
+    const historyBtn = document.getElementById('history-btn');
+    const historyList = document.getElementById('history-list');
+    const historyItems = document.getElementById('history-items');
+    const retakeBtn = document.getElementById('retake-btn');
+    const saveBtn = document.getElementById('save-btn');
+    const copyBtn = document.getElementById('copy-btn');
+    const downloadBtn = document.getElementById('download-btn');
+
+    // 初始化：检查历史报告
+    function init() {
+        const reports = JSON.parse(localStorage.getItem('sinan_reports') || '[]');
+        if (reports.length > 0) {
+            historyBtn.classList.remove('hidden');
+            renderHistory(reports);
+        }
+    }
+
+    function renderHistory(reports) {
+        historyList.classList.remove('hidden');
+        historyItems.innerHTML = reports.map((r, i) => `
+            <div class="bg-white rounded-lg p-4 shadow-sm cursor-pointer hover:shadow-md transition" onclick="viewReport(${i})">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="font-bold text-gray-800">${r.date}</div>
+                        <div class="text-sm text-gray-500">类型：${r.type}</div>
+                    </div>
+                    <div class="text-2xl font-bold text-indigo-600">${r.overallScore}分</div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function viewReport(index) {
+        const reports = JSON.parse(localStorage.getItem('sinan_reports') || '[]');
+        if (reports[index]) {
+            currentReport = reports[index];
+            displayReport(currentReport);
+            homePage.classList.add('hidden');
+            quizPage.classList.add('hidden');
+            reportPage.classList.remove('hidden');
+        }
+    }
+
     startBtn.addEventListener('click', () => {
-        // 这里可以加入支付逻辑
         currentQuestion = 0;
         answers = {};
         renderQuestion();
@@ -180,7 +284,11 @@
         quizPage.classList.remove('hidden');
         updateProgress();
     });
-    
+
+    historyBtn.addEventListener('click', () => {
+        historyList.classList.toggle('hidden');
+    });
+
     function renderQuestion() {
         const q = questions[currentQuestion];
         questionContainer.innerHTML = `
@@ -209,7 +317,7 @@
         prevBtn.classList.toggle('hidden', currentQuestion === 0);
         nextBtn.textContent = currentQuestion === questions.length-1 ? '查看结果' : '下一题';
     }
-    
+
     nextBtn.addEventListener('click', () => {
         const q = questions[currentQuestion];
         if (answers[q.id] === undefined) {
@@ -221,11 +329,12 @@
             renderQuestion();
             updateProgress();
         } else {
+            generateReport();
             quizPage.classList.add('hidden');
             reportPage.classList.remove('hidden');
         }
     });
-    
+
     prevBtn.addEventListener('click', () => {
         if (currentQuestion > 0) {
             currentQuestion--;
@@ -233,17 +342,194 @@
             updateProgress();
         }
     });
-    
+
     function updateProgress() {
         const progress = ((currentQuestion+1)/questions.length)*100;
         progressBar.style.width = `${progress}%`;
         progressText.textContent = `${currentQuestion+1}/${questions.length} 题`;
     }
-    
-    reportForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        alert('提交成功！完整报告已发送到您的邮箱，请注意查收。');
+
+    function generateReport() {
+        // 计算各维度得分
+        const dimensionScores = {};
+        const dimensionCounts = {};
+
+        questions.forEach(q => {
+            if (answers[q.id] !== undefined) {
+                const score = q.reverse ? (4 - answers[q.id]) : answers[q.id];
+                if (!dimensionScores[q.dimension]) {
+                    dimensionScores[q.dimension] = 0;
+                    dimensionCounts[q.dimension] = 0;
+                }
+                dimensionScores[q.dimension] += score;
+                dimensionCounts[q.dimension]++;
+            }
+        });
+
+        // 归一化为0-100分
+        Object.keys(dimensionScores).forEach(d => {
+            dimensionScores[d] = Math.round((dimensionScores[d] / (dimensionCounts[d] * 4)) * 100);
+        });
+
+        // 计算分组得分
+        const groupScores = {};
+        Object.keys(dimensionGroups).forEach(group => {
+            const dims = dimensionGroups[group];
+            let total = 0;
+            dims.forEach(d => {
+                total += dimensionScores[d] || 0;
+            });
+            groupScores[group] = Math.round(total / dims.length);
+        });
+
+        // 计算总体得分
+        const overallScore = Math.round(
+            (groupScores['底层动机'] + groupScores['人格特质'] + groupScores['优势能力'] +
+             groupScores['风险承受'] + groupScores['资源积累'] + groupScores['认知水平']) / 6
+        );
+
+        // 判断创业类型
+        let type = '';
+        let typeDesc = '';
+        if (overallScore >= 80) {
+            type = '超级个体型';
+            typeDesc = '你具备创业的全部要素：强烈的动机、优秀的特质、强大的能力、充足的风险承受力、丰富的资源和高认知水平。你有很大几率成为成功创业者！';
+        } else if (overallScore >= 60) {
+            type = '潜力创业型';
+            typeDesc = '你具备创业的基础条件，但在某些方面还有提升空间。建议通过投名状深度核查，明确短板并针对性提升。';
+        } else if (overallScore >= 40) {
+            type = '谨慎观察型';
+            typeDesc = '你的创业基础尚可，但风险承受力和资源积累有待加强。建议先通过投名状深入了解，谨慎决策。';
+        } else {
+            type = '学习积累型';
+            typeDesc = '你当前的创业准备还不充分，建议先积累经验、提升技能、扩展资源。可以考虑从副业或小成本项目开始。';
+        }
+
+        // 生成推荐建议
+        const recommendations = [];
+        if (dimensionScores['mission'] >= 70) recommendations.push('你有强烈的使命感，适合做社会价值导向的项目');
+        if (dimensionScores['risk'] >= 70) recommendations.push('你有较强的风险承受力，可以尝试创新或高增长领域');
+        if (dimensionScores['execution'] >= 70) recommendations.push('你的执行力很强，适合快节奏的创业模式');
+        if (dimensionScores['strategic'] >= 70) recommendations.push('你有战略思维，适合做长期规划和复杂项目');
+        if (dimensionScores['resource'] < 50) recommendations.push('建议先积累资源（人脉、资金、技能）再创业');
+        if (dimensionScores['cognition'] < 50) recommendations.push('建议提升商业认知，学习商业模式和运营知识');
+
+        const report = {
+            date: new Date().toLocaleString('zh-CN'),
+            dimensionScores,
+            groupScores,
+            overallScore,
+            type,
+            typeDesc,
+            recommendations
+        };
+
+        currentReport = report;
+        displayReport(report);
+
+        // 保存到历史
+        const reports = JSON.parse(localStorage.getItem('sinan_reports') || '[]');
+        reports.unshift(report);
+        if (reports.length > 10) reports.pop(); // 只保留最近10条
+        localStorage.setItem('sinan_reports', JSON.stringify(reports));
+        historyBtn.classList.remove('hidden');
+    }
+
+    function displayReport(report) {
+        document.getElementById('report-date').textContent = report.date;
+        document.getElementById('result-type').textContent = report.type;
+        document.getElementById('result-desc').textContent = report.typeDesc;
+
+        // 显示维度得分
+        const container = document.getElementById('dimension-scores');
+        container.innerHTML = Object.keys(dimensionGroups).map(group => {
+            const dims = dimensionGroups[group];
+            let groupTotal = 0;
+            const detailHtml = dims.map(d => `
+                <div class="flex justify-between text-sm py-1">
+                    <span class="text-gray-600">${dimensionNames[d]}</span>
+                    <span class="font-bold ${report.dimensionScores[d] >= 70 ? 'text-green-600' : report.dimensionScores[d] >= 50 ? 'text-yellow-600' : 'text-red-600'}">${report.dimensionScores[d]}分</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                    <div class="score-bar h-2 rounded-full ${report.dimensionScores[d] >= 70 ? 'bg-green-500' : report.dimensionScores[d] >= 50 ? 'bg-yellow-500' : 'bg-red-500'}" style="width: ${report.dimensionScores[d]}%"></div>
+                </div>
+            `).join('');
+            dims.forEach(d => groupTotal += report.dimensionScores[d]);
+            const avg = Math.round(groupTotal / dims.length);
+
+            return `
+                <div class="mb-6 fade-in">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-bold text-gray-800">${group}</span>
+                        <span class="text-2xl font-bold ${avg >= 70 ? 'text-green-600' : avg >= 50 ? 'text-yellow-600' : 'text-red-600'}">${avg}分</span>
+                    </div>
+                    ${detailHtml}
+                </div>
+            `;
+        }).join('');
+
+        // 显示推荐建议
+        document.getElementById('recommendations').innerHTML = report.recommendations.length > 0
+            ? report.recommendations.map(r => `<div class="flex items-start gap-2 text-sm"><span class="text-indigo-600">•</span><span>${r}</span></div>`).join('')
+            : '<div class="text-gray-500">暂无特别建议，保持当前状态即可</div>';
+    }
+
+    saveBtn.addEventListener('click', () => {
+        if (!currentReport) return;
+        const reports = JSON.parse(localStorage.getItem('sinan_reports') || '[]');
+        localStorage.setItem('sinan_reports', JSON.stringify(reports));
+        showSaveStatus('✅ 报告已保存到本地');
     });
+
+    copyBtn.addEventListener('click', () => {
+        if (!currentReport) return;
+        const text = `
+幸赋链创业测评报告
+测评时间：${currentReport.date}
+创业类型：${currentReport.type}
+总体得分：${currentReport.overallScore}分
+
+维度得分：
+${Object.keys(dimensionGroups).map(group => {
+    const dims = dimensionGroups[group];
+    let total = 0;
+    dims.forEach(d => total += currentReport.dimensionScores[d]);
+    return `${group}：${Math.round(total/dims.length)}分`;
+}).join('\n')}
+
+推荐建议：
+${currentReport.recommendations.join('\n')}
+        `.trim();
+        navigator.clipboard.writeText(text).then(() => {
+            showSaveStatus('✅ 报告已复制到剪贴板');
+        });
+    });
+
+    downloadBtn.addEventListener('click', () => {
+        if (!currentReport) return;
+        alert('图片下载功能开发中，请先保存到本地或复制报告');
+    });
+
+    function showSaveStatus(msg) {
+        const status = document.getElementById('save-status');
+        status.textContent = msg;
+        status.classList.remove('hidden');
+        setTimeout(() => status.classList.add('hidden'), 3000);
+    }
+
+    retakeBtn.addEventListener('click', () => {
+        currentQuestion = 0;
+        answers = {};
+        currentReport = null;
+        homePage.classList.remove('hidden');
+        quizPage.classList.add('hidden');
+        reportPage.classList.add('hidden');
+        progressBar.style.width = '0%';
+        progressText.textContent = '0/60 题';
+    });
+
+    // 初始化
+    init();
     </script>
 </body>
 </html>
