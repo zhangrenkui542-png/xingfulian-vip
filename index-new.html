@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>幸赋链 XFL - 幼有所育、壮有所长、老有所养</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        .btn-primary { background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); transition: all 0.3s ease; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4); }
+        .btn-secondary { background: linear-gradient(135deg, #10b981 0%, #059669 100%); transition: all 0.3s ease; }
+        .btn-secondary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4); }
+        .btn-gold { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); transition: all 0.3s ease; }
+        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4); }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.1); }
+        .gradient-text { background: linear-gradient(135deg, #6366f1, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-bg { background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%); }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- 导航栏 -->
+    <nav class="bg-slate-900/95 backdrop-blur-sm border-b border-slate-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between h-16 items-center">
+            <div class="flex items-center">
+                <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-pink-500 rounded-xl flex items-center justify-center text-white font-bold mr-3 text-lg">X</div>
+                <span class="text-xl font-bold text-white">幸赋链 <span class="text-indigo-400 font-normal">XFL</span></span>
+            </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#hero" class="text-gray-300 hover:text-white transition">首页</a>
+                <a href="#assessment" class="text-indigo-400 font-medium">创业测评</a>
+                <a href="#products" class="text-gray-300 hover:text-white transition">产品矩阵</a>
+                <a href="#deliverables" class="text-gray-300 hover:text-white transition">交付物清单</a>
+                <a href="#office" class="text-gray-300 hover:text-white transition">天枢办公室</a>
+                <a href="#contact" class="btn-primary text-white px-5 py-2 rounded-lg text-sm font-medium">立即加入</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero区域 -->
+    <section id="hero" class="hero-bg text-white py-24 sm:py-32 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-indigo-500 rounded-full filter blur-3xl"></div>
+            <div class="absolute bottom-10 right-10 w-96 h-96 bg-pink-500 rounded-full filter blur-3xl"></div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 relative">
+            <div class="text-center space-y-8">
+                <div class="inline-flex items-center px-4 py-2 bg-indigo-500/20 rounded-full text-indigo-300 text-sm">
+                    <span class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
+                    天枢正在工作 · 帮你构建创业系统
+                </div>
+                <h1 class="text-4xl sm:text-6xl font-bold">奉天承运 · 愿力而生</h1>
+                <p class="text-xl text-gray-300">2026，失业潮涌，超级个体（OPC）崛起</p>
+                <p class="text-lg text-gray-400 max-w-3xl mx-auto">
+                    幸赋链立誓：<span class="text-yellow-400 font-semibold">幼有所育、壮有所长、老有所养</span>，构建大同联邦，惠及1000万家庭。
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                    <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                        <h3 class="font-semibold mb-2 text-white">不知道创业方向？</h3>
+                        <p class="text-sm text-gray-400">司南过堂帮你找到适合的赛道</p>
+                    </div>
+                    <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                        <h3 class="font-semibold mb-2 text-white">想快速验证能力？</h3>
+                        <p class="text-sm text-gray-400">投名状深度核查，确认是否适合</p>
+                    </div>
+                    <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                        <h3 class="font-semibold mb-2 text-white">需要完整创业系统？</h3>
+                        <p class="text-sm text-gray-400">盟友获方法论+资源+指导</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 创业测评 -->
+    <section id="assessment" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12">
+                    <div class="text-6xl mb-4">🧭</div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">创业测评 · 司南过堂</h2>
+                    <p class="text-gray-600">30秒完成测评，你将获得：</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                        <div class="bg-blue-50 p-6 rounded-xl text-left">
+                            <div class="text-2xl font-bold text-blue-600 mb-2">01</div>
+                            <h4 class="font-semibold mb-2">创业方向报告</h4>
+                            <p class="text-sm text-gray-600">你的创业类型（6大类）+ 3个适合赛道 + 风险评分（1-10分）</p>
+                        </div>
+                        <div class="bg-green-50 p-6 rounded-xl text-left">
+                            <div class="text-2xl font-bold text-green-600 mb-2">02</div>
+                            <h4 class="font-semibold mb-2">3个立即行动建议</h4>
+                            <p class="text-sm text-gray-600">每个建议都可以立即执行，含具体时间表</p>
+                        </div>
+                        <div class="bg-purple-50 p-6 rounded-xl text-left">
+                            <div class="text-2xl font-bold text-purple-600 mb-2">03</div>
+                            <h4 class="font-semibold mb-2">是否继续判词</h4>
+                            <p class="text-sm text-gray-600">"建议深度核查"或"建议更换赛道"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-2xl border border-blue-200">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h3 class="text-xl font-bold mb-4">测评维度</h3>
+                            <ul class="space-y-2 text-gray-600">
+                                <li>✅ 底层动机（生存/兴趣/成就/使命）</li>
+                                <li>✅ 人格特质（开放性/尽责性/外向性）</li>
+                                <li>✅ 优势能力（执行/影响/关系/战略）</li>
+                                <li>✅ 风险承受（可接受失败成本）</li>
+                                <li>✅ 资源积累（人脉/技能/资金）</li>
+                                <li>✅ 认知水平（商业理解/判断能力）</li>
+                            </ul>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-5xl font-bold text-indigo-600 mb-4">60道题</div>
+                            <p class="text-gray-600">准确率90%+</p>
+                            <a href="#" class="inline-block btn-primary text-white px-8 py-4 rounded-xl font-bold text-lg mt-4">立即开始测评（¥19.9）</a>
+                            <p class="text-sm text-gray-500 mt-2">支付后即可开始，提交后概不退换</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 产品矩阵 -->
+    <section id="products" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">产品矩阵</h2>
+                <p class="text-gray-600">从认知到行动，从筛选到裂变</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- 司南过堂 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4">🧭</div>
+                        <h3 class="text-xl font-bold mb-2">司南过堂</h3>
+                        <div class="text-3xl font-bold text-blue-600 mb-4">¥19.9</div>
+                    </div>
+                    <p class="text-gray-600 mb-4">创业分诊/流量入口</p>
+                    <div class="space-y-2 mb-6">
+                        <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 font-bold text-sm flex-shrink-0">✓</div>
+                            <p class="text-sm text-gray-700"><strong>创业方向测评报告</strong>（PDF，5页）</p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 font-bold text-sm flex-shrink-0">✓</div>
+                            <p class="text-sm text-gray-700"><strong>3个立即行动建议</strong>（可执行）</p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 font-bold text-sm flex-shrink-0">✓</div>
+                            <p class="text-sm text-gray-700"><strong>是否继续判词</strong>（AI生成）</p>
+                        </div>
+                    </div>
+                    <a href="#" class="block w-full btn-primary text-white text-center py-3 rounded-lg font-medium">了解更多</a>
+                </div>
+
+                <!-- 投名状 -->
+                <div class="bg-white rounded-2xl shadow-sm border-2 border-green-400 p-8 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-red-500 text-white text-xs px-3 py-1 rounded-bl-lg">热门</div>
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4">⚔️</div>
+                        <h3 class="text-xl font-bold mb-2">投名状</h3>
+                        <div class="text-3xl font-bold text-green-600 mb-4">¥99</div>
+                    </div>
+                    <p class="text-gray-600 mb-4">深度核查/精准筛选</p>
+                    <div class="space-y-2 mb-6">
+                        <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 bg-green-50 rounded-full flex items-center justify-center text-green-600 font-bold text-sm flex-shrink-0">✓</div>
+                            <p class="text-sm text-gray-700"><strong>个人能力画像报告</strong>（PDF，8页）</p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 bg-green-50 rounded-full flex items-center justify-center text-green-600 font-bold text-sm flex-shrink-0">✓</div>
+                            <p class="text-sm text-gray-700"><strong>统帅1对1评语</strong>（50-100字）</p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 bg-green-50 rounded-full flex items-center justify-center text-green-600 font-bold text-sm flex-shrink-0">✓</div>
+                            <p class="text-sm text-gray-700"><strong>是否进入盟友圈的建议</strong>（专业判词）</p>
+                        </div>
+                    </div>
+                    <a href="#" class="block w-full btn-secondary text-white text-center py-3 rounded-lg font-medium">了解更多</a>
+                </div>
+
+                <!-- 盟友 -->
+                <div class="bg-white rounded-2xl shadow-sm border-2 border-yellow-400 p-8 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-yellow-500 text-white text-xs px-3 py-1 rounded-bl-lg">推荐</div>
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 bg-yellow-100 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4">🤝</div>
+                        <h3 class="text-xl font-bold mb-2">盟友</h3>
+                        <div class="text-3xl font-bold text-yellow-600 mb-4">¥699</div>
+                    </div>
+                    <p class="text-gray-600 mb-4">入伙/裂变/终极转化</p>
+                    <div class="space-y-2 mb-6">
+                        <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 bg-yellow-50 rounded-full flex items-center justify-center text-yellow-600 font-bold text-sm flex-shrink-0">✓</div>
+                            <p class="text-sm text-gray-700"><strong>幸赋链方法论包</strong>（30页PDF+3小时视频）</p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 bg-yellow-50 rounded-full flex items-center justify-center text-yellow-600 font-bold text-sm flex-shrink-0">✓</div>
+                            <p class="text-sm text-gray-700"><strong>资源对接机会</strong>（当前5个项目）</p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 bg-yellow-50 rounded-full flex items-center justify-center text-yellow-600 font-bold text-sm flex-shrink-0">✓</div>
+                            <p class="text-sm text-gray-700"><strong>统帅1对1指导1次</strong>（45分钟）</p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 bg-yellow-50 rounded-full flex items-center justify-center text-yellow-600 font-bold text-sm flex-shrink-0">✓</div>
+                            <p class="text-sm text-gray-700"><strong>盟友专属身份标识</strong>（知识库权限+社群）</p>
+                        </div>
+                    </div>
+                    <a href="#" class="block w-full btn-gold text-white text-center py-3 rounded-lg font-bold">立即加入</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 交付物清单 -->
+    <section id="deliverables" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">交付物清单</h2>
+                    <p class="text-gray-600">支付后你将立即获得什么？不是愿景，是具体可用的交付物。</p>
+                </div>
+                
+                <!-- ¥19.9 -->
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-2xl border border-blue-200 mb-8">
+                    <h3 class="text-xl font-bold mb-6 text-blue-900">¥19.9 司南过堂交付物</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="space-y-3">
+                            <h4 class="font-semibold text-blue-800">创业方向测评报告（PDF，5页）</h4>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li>• 你的创业类型（6大类）</li>
+                                <li>• 3个适合赛道（详细分析）</li>
+                                <li>• 风险评分（1-10分）</li>
+                                <li>• 每个赛道的匹配理由</li>
+                            </ul>
+                        </div>
+                        <div class="space-y-3">
+                            <h4 class="font-semibold text-blue-800">3个立即行动建议</h4>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li>• 建议1（含7天测试计划）</li>
+                                <li>• 建议2（低成本验证）</li>
+                                <li>• 建议3（调整方向）</li>
+                                <li>• 每个建议可立即执行</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ¥99 -->
+                <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-8 rounded-2xl border border-green-200 mb-8">
+                    <h3 class="text-xl font-bold mb-6 text-green-900">¥99 投名状交付物</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="space-y-3">
+                            <h4 class="font-semibold text-green-800">个人能力画像报告（PDF，8页）</h4>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li>• 你的TOP3能力（详细分析）</li>
+                                <li>• 能力缺口清单（具体到项）</li>
+                                <li>• 与幸赋链需求的匹配度</li>
+                                <li>• 优势发挥建议</li>
+                            </ul>
+                        </div>
+                        <div class="space-y-3">
+                            <h4 class="font-semibold text-green-800">统帅1对1评语（50-100字）</h4>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li>• 个性化判断</li>
+                                <li>• 具体反馈（优点+建议）</li>
+                                <li>• 是否进入盟友圈的建议</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ¥699 -->
+                <div class="bg-gradient-to-r from-yellow-50 to-orange-50 p-8 rounded-2xl border border-yellow-200">
+                    <h3 class="text-xl font-bold mb-6 text-yellow-900">¥699 盟友交付物</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="space-y-3">
+                            <h4 class="font-semibold text-yellow-800">幸赋链方法论包</h4>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li>• 30页PDF方法论文档</li>
+                                <li>• 3小时配套视频讲解</li>
+                                <li>• 10个实战案例（含数据）</li>
+                                <li>• 落地SOP模板</li>
+                            </ul>
+                        </div>
+                        <div class="space-y-3">
+                            <h4 class="font-semibold text-yellow-800">资源对接机会</h4>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li>• 当前可对接的5个项目清单</li>
+                                <li>• 每个项目的要求和收益</li>
+                                <li>• 对接流程和时间表</li>
+                                <li>• 优先推荐（最适合你的）</li>
+                            </ul>
+                        </div>
+                        <div class="space-y-3">
+                            <h4 class="font-semibold text-yellow-800">统帅1对1指导1次</h4>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li>• 45分钟语音/会议</li>
+                                <li>• 可预约任意时间</li>
+                                <li>• 提前准备问题清单</li>
+                                <li>• 会议录音+要点总结</li>
+                            </ul>
+                        </div>
+                        <div class="space-y-3">
+                            <h4 class="font-semibold text-yellow-800">盟友专属身份标识</h4>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li>• 飞书知识库访问权限</li>
+                                <li>• 盟友专属头像框</li>
+                                <li>• 社群身份标识</li>
+                                <li>• 优先参与线下活动</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 天枢办公室 -->
+    <section id="office" class="py-20 bg-gradient-to-br from-slate-900 to-slate-800">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <div class="text-6xl mb-4">🦞</div>
+                <h2 class="text-3xl font-bold text-white mb-4">天枢办公室</h2>
+                <p class="text-xl text-gray-300">幸赋链首席战略导航官的实时工作状态</p>
+            </div>
+            
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden p-8 text-center">
+                    <p class="text-gray-600 mb-6">天枢正在执行任务，实时状态展示在下方：</p>
+                    <div class="w-20 h-20 bg-indigo-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <span class="text-4xl">🦞</span>
+                    </div>
+                    <div class="text-lg font-semibold text-gray-800 mb-2">当前状态</div>
+                    <div class="text-indigo-600 font-bold mb-6">执行任务中 · 构建幸赋链2.0生态</div>
+                    <a href="https://xingfulian.vip/office.html" target="_blank" class="inline-block btn-primary text-white px-8 py-4 rounded-xl font-medium">进入完整办公室</a>
+                </div>
+            </div>
+
+            <div class="max-w-4xl mx-auto px-4 mt-8">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-slate-800/50 p-6 rounded-xl">
+                        <h3 class="font-bold mb-3 text-white">🎯 状态说明</h3>
+                        <ul class="text-sm text-gray-300 space-y-2">
+                            <li>🏠 <strong>工作中</strong> - 正在执行任务</li>
+                            <li>🔄 <strong>同步中</strong> - 同步数据/更新知识库</li>
+                            <li>🐛 <strong>报错中</strong> - 遇到问题排查中</li>
+                            <li>☕ <strong>待命</strong> - 等待指令</li>
+                        </ul>
+                    </div>
+                    <div class="bg-slate-800/50 p-6 rounded-xl">
+                        <h3 class="font-bold mb-3 text-white">📝 昨日小记</h3>
+                        <p class="text-sm text-gray-300">记录天枢每天完成的工作任务，持续学习与成长。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系区域 -->
+    <section id="contact" class="py-20 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">立即加入</h2>
+                <p class="text-gray-600">成为超级个体，共创大同联邦</p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center">
+                <p class="text-gray-600 mb-6">扫码添加微信，备注"天枢"，进入围观群。</p>
+                <div class="text-6xl mb-4">📷</div>
+                <p class="text-gray-500 mb-4">微信号：zhangrenkui（张仁奎）</p>
+                <p class="text-sm text-gray-400 mb-6">限额100人，满员即止</p>
+                
+                <div class="border-t border-gray-200 pt-6 mt-6">
+                    <h3 class="font-bold mb-4">快速入口</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <a href="#assessment" class="block bg-blue-50 p-4 rounded-xl hover:bg-blue-100 transition">
+                            <div class="text-2xl mb-2">🧭</div>
+                            <div class="font-semibold">开始测评</div>
+                            <div class="text-sm text-blue-600">¥19.9</div>
+                        </a>
+                        <a href="#" class="block bg-green-50 p-4 rounded-xl hover:bg-green-100 transition">
+                            <div class="text-2xl mb-2">⚔️</div>
+                            <div class="font-semibold">深度核查</div>
+                            <div class="text-sm text-green-600">¥99</div>
+                        </a>
+                        <a href="#" class="block bg-yellow-50 p-4 rounded-xl hover:bg-yellow-100 transition">
+                            <div class="text-2xl mb-2">🤝</div>
+                            <div class="font-semibold">成为盟友</div>
+                            <div class="text-sm text-yellow-600">¥699</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-slate-900 text-gray-400 py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-8 h-8 bg-gradient-to-br from-indigo-500 to-pink-500 rounded-lg flex items-center justify-center text-white font-bold mr-2">X</div>
+                        <span class="text-lg font-bold text-white">幸赋链</span>
+                    </div>
+                    <p class="text-sm">幼有所育、壮有所长、老有所养</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white mb-4">快速链接</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#hero" class="hover:text-white transition">首页</a></li>
+                        <li><a href="#assessment" class="hover:text-white transition">创业测评</a></li>
+                        <li><a href="#products" class="hover:text-white transition">产品矩阵</a></li>
+                        <li><a href="#deliverables" class="hover:text-white transition">交付物清单</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white mb-4">产品</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#products" class="hover:text-white transition">司南过堂 ¥19.9</a></li>
+                        <li><a href="#products" class="hover:text-white transition">投名状 ¥99</a></li>
+                        <li><a href="#products" class="hover:text-white transition">盟友 ¥699</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white mb-4">联系我们</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li>微信：zhangrenkui</li>
+                        <li>官网：xingfulian.vip</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-8 text-center text-sm">
+                <p>© 2026 幸赋链 XFL. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
