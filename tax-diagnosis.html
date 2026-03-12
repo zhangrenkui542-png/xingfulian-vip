@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>财税诊断 - 幸赋链 XFL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .btn-primary { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); transition: all 0.2s ease; }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3); }
+        .progress-bar { transition: width 0.3s ease; }
+        .score-bar { transition: width 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.3s ease forwards; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <nav class="bg-slate-900 shadow-sm sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="flex justify-between h-14 items-center">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <div class="w-8 h-8 bg-gradient-to-br from-indigo-500 to-pink-500 rounded-lg flex items-center justify-center text-white font-bold mr-2">X</div>
+                        <span class="text-lg font-semibold text-white">幸赋链</span>
+                    </a>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="index.html" class="text-gray-300 hover:text-white text-sm">返回首页</a>
+                    <button id="history-btn" class="text-gray-300 hover:text-white text-sm hidden">📋 历史报告</button>
+                    <span class="text-sm text-gray-400" id="progress-text">0/35 题</span>
+                </div>
+            </div>
+        </div>
+        <div class="w-full bg-slate-700 h-1">
+            <div class="progress-bar bg-gradient-to-r from-purple-500 to-violet-500 h-1" id="progress-bar" style="width: 0%"></div>
+        </div>
+    </nav>
+
+    <main class="max-w-2xl mx-auto px-4 py-8">
+        <div id="home-page" class="space-y-8">
+            <div class="text-center space-y-4">
+                <div class="text-6xl mb-4">📈</div>
+                <h1 class="text-2xl font-bold">企业财税诊断</h1>
+                <p class="text-gray-600">找到企业财税风险与优化空间</p>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm p-6 space-y-6">
+                <div class="grid grid-cols-3 gap-4 text-center">
+                    <div class="p-4 border rounded-lg">
+                        <div class="text-xl font-bold text-purple-600 mb-2">6大维度</div>
+                        <p class="text-xs text-gray-600">全面诊断财税健康</p>
+                    </div>
+                    <div class="p-4 border rounded-lg">
+                        <div class="text-xl font-bold text-purple-600 mb-2">35道题</div>
+                        <p class="text-xs text-gray-600">精准定位风险</p>
+                    </div>
+                    <div class="p-4 border rounded-lg">
+                        <div class="text-xl font-bold text-purple-600 mb-2">自动报告</div>
+                        <p class="text-xs text-gray-600">AI生成优化方案</p>
+                    </div>
+                </div>
+                <div class="bg-purple-50 p-4 rounded-lg text-sm text-purple-800">
+                    <p><strong>测评维度：</strong>账务规范、税务合规、成本管理、资金管理、风险控制、财务分析</p>
+                </div>
+                <button id="start-btn" class="w-full btn-primary text-white py-3 rounded-lg font-medium">开始诊断（¥19.9）</button>
+                <p class="text-center text-xs text-gray-500">支付后即可开始，提交后概不退换</p>
+            </div>
+            <div id="history-list" class="space-y-4 hidden">
+                <h3 class="font-bold text-gray-800">📋 历史报告</h3>
+                <div id="history-items" class="space-y-3"></div>
+            </div>
+        </div>
+
+        <div id="quiz-page" class="hidden">
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <div id="question-container" class="space-y-6"></div>
+                <div class="mt-8 flex justify-between">
+                    <button id="prev-btn" class="px-6 py-2 border rounded-lg text-gray-700 hidden">上一题</button>
+                    <button id="next-btn" class="px-6 py-2 btn-primary text-white rounded-lg">下一题</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="report-page" class="hidden space-y-6">
+            <div class="text-center">
+                <div class="text-6xl mb-4">📊</div>
+                <h1 class="text-2xl font-bold">你的企业财税诊断报告</h1>
+                <p class="text-gray-600 mt-2" id="report-date"></p>
+            </div>
+
+            <!-- 维度得分 -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <h3 class="font-bold text-lg mb-4">📊 维度得分分析</h3>
+                <div id="dimension-scores" class="space-y-4"></div>
+            </div>
+
+            <!-- 健康等级 -->
+            <div class="bg-gradient-to-r from-purple-50 to-violet-50 rounded-xl shadow-sm p-6 border border-purple-100">
+                <h3 class="font-bold text-lg mb-2">🎯 诊断结论</h3>
+                <div id="result-type" class="text-2xl font-bold text-purple-600 mb-2"></div>
+                <p id="result-desc" class="text-gray-700"></p>
+            </div>
+
+            <!-- 问题清单 -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <h3 class="font-bold text-lg mb-4">⚠️ 风险清单</h3>
+                <div id="problem-list" class="space-y-3"></div>
+            </div>
+
+            <!-- 推荐建议 -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <h3 class="font-bold text-lg mb-4">💡 优化建议</h3>
+                <div id="recommendations" class="space-y-3"></div>
+            </div>
+
+            <!-- 下一步行动 -->
+            <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-6">
+                <h3 class="font-bold text-yellow-800 mb-2">🚀 下一步行动</h3>
+                <p class="text-sm text-yellow-700 mb-4">根据你的诊断结果，推荐：</p>
+                <a href="products.html#dailijizhang" class="block w-full bg-purple-600 text-white text-center py-3 rounded-lg font-medium mb-2">代理记账服务</a>
+                <a href="products.html#shuiwuchouhua" class="block w-full bg-violet-500 text-white text-center py-3 rounded-lg font-medium">税务筹划咨询</a>
+            </div>
+
+            <!-- 保存和分享 -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <h3 class="font-bold text-lg mb-4">💾 保存报告</h3>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <button id="save-btn" class="flex-1 btn-primary text-white py-3 rounded-lg font-medium">保存到本地</button>
+                    <button id="copy-btn" class="flex-1 bg-gray-600 text-white py-3 rounded-lg font-medium hover:bg-gray-700">复制报告</button>
+                </div>
+                <p id="save-status" class="text-sm text-green-600 mt-2 hidden"></p>
+            </div>
+
+            <button id="retake-btn" class="w-full bg-gray-200 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-300">重新诊断</button>
+        </div>
+    </main>
+
+    <script>
+    const questions = [
+    // 账务规范 6题
+    {id:'a1',text:'公司每月按时完成账务处理',dimension:'账务规范',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'a2',text:'凭证、账簿、报表装订归档规范',dimension:'账务规范',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'a3',text:'会计核算符合会计准则要求',dimension:'账务规范',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'a4',text:'银行对账及时，账实相符',dimension:'账务规范',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'a5',text:'库存和固定资产定期盘点',dimension:'账务规范',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'a6',text:'财务制度健全且有效执行',dimension:'账务规范',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    // 税务合规 6题
+    {id:'t1',text:'税务申报准时，无逾期记录',dimension:'税务合规',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'t2',text:'增值税发票管理规范，无虚开发票',dimension:'税务合规',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'t3',text:'企业所得税汇算清缴合规',dimension:'税务合规',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'t4',text:'税务筹划在合法合规框架内',dimension:'税务合规',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'t5',text:'印花税、附加税等小税种无遗漏',dimension:'税务合规',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'t6',text:'税务风险有定期自查机制',dimension:'税务合规',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    // 成本管理 6题
+    {id:'cm1',text:'公司的成本核算精确到具体项目',dimension:'成本管理',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'cm2',text:'成本费用有明确的审批流程',dimension:'成本管理',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'cm3',text:'预算管理执行到位',dimension:'成本管理',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'cm4',text:'变动成本和固定成本区分清晰',dimension:'成本管理',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'cm5',text:'成本异常能够及时发现和分析',dimension:'成本管理',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'cm6',text:'有成本控制和降本增效的措施',dimension:'成本管理',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    // 资金管理 5题
+    {id:'cash1',text:'公司有3-6个月的现金流储备',dimension:'资金管理',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'cash2',text:'应收账款管理有明确制度',dimension:'资金管理',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'cash3',text:'付款审批流程规范',dimension:'资金管理',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'cash4',text:'资金使用有计划有预算',dimension:'资金管理',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'cash5',text:'银行账户管理规范，无账外资金',dimension:'资金管理',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    // 风险控制 6题
+    {id:'r1',text:'公司了解常见的财税风险并有防范措施',dimension:'风险控制',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'r2',text:'合同、财务审批有完善的流程',dimension:'风险控制',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'r3',text:'印鉴管理有严格的制度',dimension:'风险控制',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'r4',text:'税务稽查有应对预案',dimension:'风险控制',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'r5',text:'财务人员职责分离，相互监督',dimension:'风险控制',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'r6',text:'定期进行内部财务审计',dimension:'风险控制',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    // 财务分析 6题
+    {id:'fa1',text:'财务能提供经营分析报告支持决策',dimension:'财务分析',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'fa2',text:'老板能看懂财务报表',dimension:'财务分析',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'fa3',text:'关键财务指标有定期跟踪',dimension:'财务分析',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'fa4',text:'财务分析能够发现问题并提出建议',dimension:'财务分析',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'fa5',text:'预算执行有定期分析和调整',dimension:'财务分析',options:['非常不符','不太符合','一般','比较符合','非常符合']},
+    {id:'fa6',text:'财务能够参与业务决策',dimension:'财务分析',options:['非常不符','不太符合','一般','比较符合','非常符合']}
+    ];
+
+    const dimensions = ['账务规范','税务合规','成本管理','资金管理','风险控制','财务分析'];
+
+    let currentQuestion = 0, answers = {};
+    let currentReport = null;
+
+    const homePage = document.getElementById('home-page');
+    const quizPage = document.getElementById('quiz-page');
+    const reportPage = document.getElementById('report-page');
+    const questionContainer = document.getElementById('question-container');
+    const progressBar = document.getElementById('progress-bar');
+    const progressText = document.getElementById('progress-text');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const startBtn = document.getElementById('start-btn');
+    const historyBtn = document.getElementById('history-btn');
+    const historyList = document.getElementById('history-list');
+    const historyItems = document.getElementById('history-items');
+    const retakeBtn = document.getElementById('retake-btn');
+    const saveBtn = document.getElementById('save-btn');
+    const copyBtn = document.getElementById('copy-btn');
+
+    function init() {
+        const reports = JSON.parse(localStorage.getItem('tax_reports') || '[]');
+        if (reports.length > 0) {
+            historyBtn.classList.remove('hidden');
+            renderHistory(reports);
+        }
+    }
+
+    function renderHistory(reports) {
+        historyList.classList.remove('hidden');
+        historyItems.innerHTML = reports.map((r, i) => `
+            <div class="bg-white rounded-lg p-4 shadow-sm cursor-pointer hover:shadow-md transition" onclick="viewReport(${i})">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="font-bold text-gray-800">${r.date}</div>
+                        <div class="text-sm text-gray-500">${r.overallScore}分</div>
+                    </div>
+                    <div class="text-2xl font-bold text-purple-600">${r.overallScore}分</div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function viewReport(index) {
+        const reports = JSON.parse(localStorage.getItem('tax_reports') || '[]');
+        if (reports[index]) {
+            currentReport = reports[index];
+            displayReport(currentReport);
+            homePage.classList.add('hidden');
+            quizPage.classList.add('hidden');
+            reportPage.classList.remove('hidden');
+        }
+    }
+
+    startBtn.addEventListener('click', () => {
+        currentQuestion = 0;
+        answers = {};
+        renderQuestion();
+        homePage.classList.add('hidden');
+        quizPage.classList.remove('hidden');
+        updateProgress();
+    });
+
+    historyBtn.addEventListener('click', () => {
+        historyList.classList.toggle('hidden');
+    });
+
+    function renderQuestion() {
+        const q = questions[currentQuestion];
+        questionContainer.innerHTML = `
+            <div>
+                <span class="inline-block px-3 py-1 bg-purple-100 text-purple-800 text-xs rounded-full mb-2">
+                    第${currentQuestion+1}题 / 共${questions.length}题 · ${q.dimension}
+                </span>
+                <h3 class="text-lg font-semibold mb-4">${q.text}</h3>
+                <div class="space-y-3">
+                    ${q.options.map((opt,i) => `
+                        <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50 ${answers[q.id]===i ? 'border-purple-500 bg-purple-50' : ''}">
+                            <input type="radio" name="answer" value="${i}" class="mr-3" ${answers[q.id]===i ? 'checked' : ''}>
+                            <span>${opt}</span>
+                        </label>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+        document.querySelectorAll('input[name="answer"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                answers[q.id] = parseInt(e.target.value);
+                document.querySelectorAll('label').forEach(l => l.classList.remove('border-purple-500','bg-purple-50'));
+                e.target.parentElement.classList.add('border-purple-500','bg-purple-50');
+            });
+        });
+        prevBtn.classList.toggle('hidden', currentQuestion === 0);
+        nextBtn.textContent = currentQuestion === questions.length-1 ? '查看结果' : '下一题';
+    }
+
+    nextBtn.addEventListener('click', () => {
+        const q = questions[currentQuestion];
+        if (answers[q.id] === undefined) {
+            alert('请选择一个选项');
+            return;
+        }
+        if (currentQuestion < questions.length-1) {
+            currentQuestion++;
+            renderQuestion();
+            updateProgress();
+        } else {
+            generateReport();
+            quizPage.classList.add('hidden');
+            reportPage.classList.remove('hidden');
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        if (currentQuestion > 0) {
+            currentQuestion--;
+            renderQuestion();
+            updateProgress();
+        }
+    });
+
+    function updateProgress() {
+        const progress = ((currentQuestion+1)/questions.length)*100;
+        progressBar.style.width = `${progress}%`;
+        progressText.textContent = `${currentQuestion+1}/${questions.length} 题`;
+    }
+
+    function generateReport() {
+        const dimensionScores = {};
+        const dimensionCounts = {};
+
+        questions.forEach(q => {
+            if (answers[q.id] !== undefined) {
+                const score = answers[q.id];
+                if (!dimensionScores[q.dimension]) {
+                    dimensionScores[q.dimension] = 0;
+                    dimensionCounts[q.dimension] = 0;
+                }
+                dimensionScores[q.dimension] += score;
+                dimensionCounts[q.dimension]++;
+            }
+        });
+
+        Object.keys(dimensionScores).forEach(d => {
+            dimensionScores[d] = Math.round((dimensionScores[d] / (dimensionCounts[d] * 4)) * 100);
+        });
+
+        const overallScore = Math.round(Object.values(dimensionScores).reduce((a,b)=>a+b,0) / dimensions.length);
+
+        let type = '', typeDesc = '';
+        if (overallScore >= 80) {
+            type = '健康';
+            typeDesc = '你的财税体系健康，各维度表现良好。建议保持合规，并持续优化财务管理。';
+        } else if (overallScore >= 60) {
+            type = '基本健康';
+            typeDesc = '你的财税体系基本合规，但在某些维度存在风险。建议针对薄弱环节进行优化。';
+        } else if (overallScore >= 40) {
+            type = '存在风险';
+            typeDesc = '你的财税体系存在较多风险点，可能引发合规问题。建议寻求专业机构进行优化。';
+        } else {
+            type = '高风险';
+            typeDesc = '你的财税体系风险较高，可能面临税务稽查风险。建议立即进行系统诊断和整改。';
+        }
+
+        const problems = [];
+        const recommendations = [];
+        Object.keys(dimensionScores).forEach(d => {
+            const score = dimensionScores[d];
+            if (score < 60) {
+                problems.push({dimension: d, score: score, level: score < 40 ? '高' : '中'});
+                if (d === '账务规范') recommendations.push('建立规范的账务处理流程');
+                if (d === '税务合规') recommendations.push('完善税务合规体系，定期自查');
+                if (d === '成本管理') recommendations.push('建立成本核算和管控体系');
+                if (d === '资金管理') recommendations.push('加强现金流管理和应收账款管理');
+                if (d === '风险控制') recommendations.push('完善内控体系，防范财税风险');
+                if (d === '财务分析') recommendations.push('建立经营分析体系，支持决策');
+            }
+        });
+        if (recommendations.length === 0) recommendations.push('保持现有体系，持续关注政策变化');
+
+        const report = {
+            date: new Date().toLocaleString('zh-CN'),
+            dimensionScores,
+            overallScore,
+            type,
+            typeDesc,
+            problems,
+            recommendations
+        };
+
+        currentReport = report;
+        displayReport(report);
+
+        const reports = JSON.parse(localStorage.getItem('tax_reports') || '[]');
+        reports.unshift(report);
+        if (reports.length > 10) reports.pop();
+        localStorage.setItem('tax_reports', JSON.stringify(reports));
+        historyBtn.classList.remove('hidden');
+    }
+
+    function displayReport(report) {
+        document.getElementById('report-date').textContent = report.date;
+        document.getElementById('result-type').textContent = report.type;
+        document.getElementById('result-desc').textContent = report.typeDesc;
+
+        const container = document.getElementById('dimension-scores');
+        container.innerHTML = dimensions.map(d => {
+            const score = report.dimensionScores[d] || 0;
+            const colorClass = score >= 70 ? 'text-green-600 bg-green-500' : score >= 50 ? 'text-yellow-600 bg-yellow-500' : 'text-red-600 bg-red-500';
+            return `
+                <div class="mb-4 fade-in">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-bold text-gray-800">${d}</span>
+                        <span class="text-2xl font-bold ${colorClass.split(' ')[0]}">${score}分</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-3">
+                        <div class="score-bar h-3 rounded-full ${colorClass.split(' ')[1]}" style="width: ${score}%"></div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        const problemContainer = document.getElementById('problem-list');
+        if (report.problems.length > 0) {
+            problemContainer.innerHTML = report.problems.map(p => `
+                <div class="flex items-center justify-between p-3 ${p.level === '高' ? 'bg-red-50 border-l-4 border-red-500' : 'bg-yellow-50 border-l-4 border-yellow-500'} rounded">
+                    <span class="font-medium">${p.dimension}</span>
+                    <span class="text-sm ${p.level === '高' ? 'text-red-600' : 'text-yellow-600'}">${p.level}风险 · ${p.score}分</span>
+                </div>
+            `).join('');
+        } else {
+            problemContainer.innerHTML = '<div class="text-gray-500">未发现明显风险</div>';
+        }
+
+        document.getElementById('recommendations').innerHTML = report.recommendations.map(r => 
+            `<div class="flex items-start gap-2 text-sm"><span class="text-purple-600">•</span><span>${r}</span></div>`
+        ).join('');
+    }
+
+    saveBtn.addEventListener('click', () => {
+        if (!currentReport) return;
+        localStorage.setItem('tax_reports', JSON.stringify(JSON.parse(localStorage.getItem('tax_reports') || '[]')));
+        showSaveStatus('✅ 报告已保存到本地');
+    });
+
+    copyBtn.addEventListener('click', () => {
+        if (!currentReport) return;
+        const text = `
+幸赋链企业财税诊断报告
+测评时间：${currentReport.date}
+总体得分：${currentReport.overallScore}分
+诊断结论：${currentReport.type}
+
+维度得分：
+${Object.entries(currentReport.dimensionScores).map(([k,v]) => `${k}：${v}分`).join('\n')}
+
+风险清单：
+${currentReport.problems.map(p => `${p.dimension}（${p.level}风险）`).join('\n') || '无'}
+
+优化建议：
+${currentReport.recommendations.join('\n')}
+        `.trim();
+        navigator.clipboard.writeText(text).then(() => {
+            showSaveStatus('✅ 报告已复制到剪贴板');
+        });
+    });
+
+    function showSaveStatus(msg) {
+        const status = document.getElementById('save-status');
+        status.textContent = msg;
+        status.classList.remove('hidden');
+        setTimeout(() => status.classList.add('hidden'), 3000);
+    }
+
+    retakeBtn.addEventListener('click', () => {
+        currentQuestion = 0;
+        answers = {};
+        currentReport = null;
+        homePage.classList.remove('hidden');
+        quizPage.classList.add('hidden');
+        reportPage.classList.add('hidden');
+        progressBar.style.width = '0%';
+        progressText.textContent = '0/35 题';
+    });
+
+    init();
+    </script>
+</body>
+</html>
